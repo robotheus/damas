@@ -1,0 +1,1 @@
+void create_board(int **board, int n, int m);
