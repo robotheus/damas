@@ -15,3 +15,7 @@ int read_file(){
 
     return x;
 }
+
+void close_file(){
+    fclose(arqEntrada);
+}
