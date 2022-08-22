@@ -5,10 +5,11 @@
 
 void main(int argc, char *argv[]){
     int n, m, **board;
-    
+
     open_file(argv[2]);
     
     while(1){
+        board = NULL;
         if(n == 0 || m == 0) break;
         
         n = read_file();
@@ -25,5 +26,9 @@ void main(int argc, char *argv[]){
         }
 
         printf("\n");
+
+        free(board);
     }
+    
+    close_file();
 }
