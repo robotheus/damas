@@ -1,1 +1,2 @@
-void create_board(int **board, int n, int m);
+void create_board(int **, int, int);
+void clean_board(int **, int);
