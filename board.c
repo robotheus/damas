@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "board.h"
 #include "file.h"
+#include "brutalgame.h"
 
 void create_board(int **board, int n, int m){
     //cria o vetor de ponteiros
@@ -16,6 +17,15 @@ void create_board(int **board, int n, int m){
         }
     }
 
+    //forma a borda
+    for(int i = 0; i < n+2; i++){
+        for(int j = 0; j < m+2; j++){
+            if((i == 0 || i == (n+2)-1) || (j == 0 || j == (m+2)-1)){
+                board[i][j] = 3;
+            }
+        }
+    }
+
     //preenche o vetor com dados lidos do arquivo
     for(int y = 1; y <= n; y++){
         if(y % 2 != 0){
@@ -27,6 +37,20 @@ void create_board(int **board, int n, int m){
                 board[y][x] = read_file();
             }
         }
+    }
+}
+
+void reset_board(int **board, int i, int j){
+    if(board[i+1][j+1] == 'y' && board[i+2][j+2] == 'z'){
+        reverse_eat(board, i+2, j+2, i+1, j+1, i, j);
+    } else if(board[i-1][j-1] == 'y' && board[i-2][j-2] == 'z'){
+        reverse_eat(board, i-2, j-2, i-1, j-1, i, j);
+    } else if(board[i+1][j-1] == 'y' && board[i+2][j-2] == 'z'){
+        reverse_eat(board, i+2, j-2, i+1, j-1, i, j);
+    } else if(board[i-1][j+1] == 'y' && board[i-2][j+2] == 'z'){
+        reverse_eat(board, i-2, j+2, i-1, j+1, i, j);
+    } else {
+        board[i][j] = 1;
     }
 }
 
