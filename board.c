@@ -40,17 +40,15 @@ void create_board(int **board, int n, int m){
     }
 }
 
-void reset_board(int **board, int i, int j){
-    if(board[i+1][j+1] == 'y' && board[i+2][j+2] == 'z'){
-        reverse_eat(board, i+2, j+2, i+1, j+1, i, j);
-    } else if(board[i-1][j-1] == 'y' && board[i-2][j-2] == 'z'){
-        reverse_eat(board, i-2, j-2, i-1, j-1, i, j);
-    } else if(board[i+1][j-1] == 'y' && board[i+2][j-2] == 'z'){
-        reverse_eat(board, i+2, j-2, i+1, j-1, i, j);
-    } else if(board[i-1][j+1] == 'y' && board[i-2][j+2] == 'z'){
-        reverse_eat(board, i-2, j+2, i-1, j+1, i, j);
-    } else {
-        board[i][j] = 1;
+void copy_board(int **copy, int **board, int n, int m){
+    for(int i = 0; i < n+2; i++){
+        copy[i] = (int*) malloc((m+2) * sizeof(int*));
+    }
+
+    for(int i = 0; i < n+2; i++){
+        for(int j = 0; j < m+2; j++){
+            copy[i][j] = board[i][j];
+        }
     }
 }
 
