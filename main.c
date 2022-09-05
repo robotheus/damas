@@ -20,8 +20,8 @@ void main(int argc, char *argv[]){
 
         board = (int**)malloc((n+2) * sizeof(int*));
         create_board(board, n, m);
-        print_board(board, n, m);
         brutal_game(board, n, m);
+        print_board(board, n, m);
         clean_board(board, n);
         free(board);    
     }

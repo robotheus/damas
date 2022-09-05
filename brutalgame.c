@@ -30,7 +30,7 @@ void brutal_game(int **board, int n, int m){
     free(copy);
 }
 
-void check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *contador){
+int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *contador){    
     if(board[i+1][j+1] == 2 && board[i+2][j+2] == 0){
         eat(board, i+2, j+2, i+1, j+1, i, j, contador);
     } else if(board[i-1][j-1] == 2 && board[i-2][j-2] == 0){
@@ -40,7 +40,14 @@ void check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int 
     } else if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0){
         eat(board, i-2, j+2, i-1, j+1, i, j, contador);
     } else {
-        back_one();
+        if(board[k][l] == 'y') {
+            (*contador)++;
+            return 0;
+        } else if(k == 0){
+            return 0;
+        } else {
+            back_one(board, i, j, k, l, m, n, contador);
+        }
     }
 }
 
@@ -52,7 +59,11 @@ void eat(int **board, int i, int j, int k, int l, int m, int n, int *contador){
     check_diagonals(board, i, j, k, l, m, n, contador);
 }
 
-void back_one(){
-    printf("voltou :)\n");
+void back_one(int **board, int i, int j, int k, int l, int m, int n, int *contador){
+    (*contador)--;
+    board[i][j] = 0;
+    board[k][l] = 'y';
+    board[m][n] = 1;
+    check_diagonals(board, m, n, k, l, i, j, contador);
 }
 
