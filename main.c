@@ -8,7 +8,6 @@
 void main(int argc, char *argv[]){
     
     int**board;
-    board = NULL;
     int n, m;
 
     open_file(argv[2]);
@@ -20,6 +19,7 @@ void main(int argc, char *argv[]){
 
         board = (int**)malloc((n+2) * sizeof(int*));
         create_board(board, n, m);
+        fill_board(board, n, m);
         brutal_game(board, n, m);
         print_board(board, n, m);
         clean_board(board, n);

@@ -14,6 +14,7 @@ void brutal_game(int **board, int n, int m){
         for(int j = 1; j <= m; j++){
             if(board[i][j] == 1){
                 *contador = 0;
+                create_board(copy, n, m);
                 copy_board(copy, board, n, m);
                 check_diagonals(copy, i, j, k, l, o, p, contador);
                 clean_board(copy, n);
@@ -66,4 +67,3 @@ void back_one(int **board, int i, int j, int k, int l, int m, int n, int *contad
     board[m][n] = 1;
     check_diagonals(board, m, n, k, l, i, j, contador);
 }
-
