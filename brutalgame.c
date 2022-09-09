@@ -66,11 +66,11 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
             back_one(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
         } else {
             if(password >= 1){
-                int **flags;
+                int **flags, num_flags = 0;
                 flags = (int**)malloc((x+2) * sizeof(int*));
                 create_board(flags, x, y);
                 copy_board(flags, board, x, y);
-                count_flags(flags, i, j, count, max);
+                count_flags(flags, i, j, count, max, num_flags);
                 clean_board(flags, x);
                 free(flags);
 
@@ -87,27 +87,27 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
     } 
 }
 
-int count_flags(int **board, int i, int j, int *count, int *max){
+int count_flags(int **board, int i, int j, int *count, int *max, int num_flags){
     if(board[i+1][j+1] == 'y' && board[i+2][j+2] == 0){
-        (*count)++;
-        if(*count > *max) *max = *count;
+        num_flags++;
+        if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i+1][j+1] = 'x';
-        count_flags(board, i+2, j+2, count, max);
+        count_flags(board, i+2, j+2, count, max, num_flags);
     } else if(board[i-1][j-1] == 'y' && board[i-2][j-2] == 0){
-        (*count)++;
-        if(*count > *max) *max = *count;
+        num_flags++;
+        if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i-1][j-1] = 'x';
-        count_flags(board, i-2, j-2, count, max);
+        count_flags(board, i-2, j-2, count, max, num_flags);
     } else if(board[i+1][j-1] == 'y' && board[i+2][j-2] == 0){
-        (*count)++;
-        if(*count > *max) *max = *count;
+        num_flags++;
+        if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i+1][j-1] = 'x';
-        count_flags(board, i+2, j-2, count, max);
+        count_flags(board, i+2, j-2, count, max, num_flags);
     } else if(board[i-1][j+1] == 'y' && board[i-2][j+2] == 0){
-        (*count)++;
-        if(*count > *max) *max = *count;
+        num_flags++;
+        if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i-1][j+1] = 'x';
-        count_flags(board, i-2, j+2, count, max);
+        count_flags(board, i-2, j+2, count, max, num_flags);
     } else return 0;
 }
 

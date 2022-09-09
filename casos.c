@@ -24,7 +24,6 @@ void main(){
 
     printf("%.0lf %.0lf\n", n, m);
     max_pecas = ceil(a);
-    printf("%d\n", max_pecas);
     int pecas[max_pecas];
 
     //inicio:
