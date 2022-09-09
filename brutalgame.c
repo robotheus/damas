@@ -65,15 +65,15 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
         } else if(nmb_diagonals(board, m, n, 2, 0) >= 1){
             back_one(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
         } else {
-            int **flags;
-            flags = (int**)malloc((x+2) * sizeof(int*));
-            create_board(flags, x, y);
-            copy_board(flags, board, x, y);
-            count_flags(flags, i, j, count, max);
-            clean_board(flags, x);
-            free(flags);
-            
             if(password >= 1){
+                int **flags;
+                flags = (int**)malloc((x+2) * sizeof(int*));
+                create_board(flags, x, y);
+                copy_board(flags, board, x, y);
+                count_flags(flags, i, j, count, max);
+                clean_board(flags, x);
+                free(flags);
+
                 if(nmb_diagonals(point, pointi, pointj, 2, 0) == 0){
                     return 0;
                 } else {
