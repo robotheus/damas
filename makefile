@@ -1,7 +1,7 @@
 all: tp1
 
 tp1: main.o file.o board.o print.o brutalgame.o
-	gcc -o tp1 main.o file.o board.o print.o brutalgame.o
+	gcc -o tp1 main.o file.o board.o print.o brutalgame.o -lm
 
 main.o: main.c
 	gcc -c main.c

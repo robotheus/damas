@@ -14,7 +14,7 @@ void create_board(int **board, int n, int m){
     //preenche todo a matriz com nove
     for(int i = 0; i < n+2; i++){
         for(int j = 0; j < m+2; j++){
-            board[i][j] = 9;
+            board[i][j] = 0;
         }
     }
 
@@ -86,7 +86,6 @@ int validate_board(int **board, int n, int m){
     } else return 0;
 
     if(me <= ((n*m)/4.0) && opponent <= ((n*m)/4.0) && total == ceil(((n*m)/2.0))){
-        if(voidd <= 2*((n*m)/4.0)) return 1;
-        else return 0;
+        return 1;
     } else return 0;
 }

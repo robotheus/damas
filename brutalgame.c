@@ -38,7 +38,7 @@ void brutal_game(int **board, int n, int m){
 int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){    
     if(password < 1){
         int ways = 0;
-        ways = nmb_diagonals(board, i, j);
+        ways = nmb_diagonals(board, i, j, 2, 0);
 
         if(ways > 1){
             copy_board(point, board, x, y);
@@ -60,11 +60,13 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
     } else {
         if(k == -1){
             return 0;
-        } else if(nmb_diagonals(board, m, n) >= 1){
+        } else if(nmb_diagonals(board, m, n, 2, 0) >= 1){
             back_one(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
         } else if(password >= 1){
-            if(nmb_diagonals(point, pointi, pointj) == 0){
+            if(nmb_diagonals(point, pointi, pointj, 2, 0) == 0){
                 return 0;
+            } else if(nmb_diagonals(board, i, j, 'y', 0) > 0){
+                count_flags(board, i, j, count, max);
             } else {
                 *count = *copy_count;
                 point[k][l] = 'y';
@@ -75,27 +77,31 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
     }
 }
 
-int nmb_diagonals(int **board, int i, int j){
+int count_flags(int **board, int i, int j, int *count, int *max){
+    if(board[i+1][j+1] == 'y' && board[i+2][j+2] == 0){
+        (*count)++;
+        if(*count > *max) *max = *count;
+    } else if(board[i-1][j-1] == 'y' && board[i-2][j-2] == 0){
+        (*count)++;
+        if(*count > *max) *max = *count;
+    } else if(board[i+1][j-1] == 'y' && board[i+2][j-2] == 0){
+        (*count)++;
+        if(*count > *max) *max = *count;
+    } else if(board[i-1][j+1] == 'y' && board[i-2][j+2] == 0){
+        (*count)++;
+        if(*count > *max) *max = *count;
+    } else return 0;
+}
+
+int nmb_diagonals(int **board, int i, int j, int search_1, int search_2){
     int ways = 0;
-    if(board[i+1][j+1] == 2 && board[i+2][j+2] == 0) ways++;
-    if(board[i-1][j-1] == 2 && board[i-2][j-2] == 0) ways++;
-    if(board[i+1][j-1] == 2 && board[i+2][j-2] == 0) ways++;
-    if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0) ways++;
+    if(board[i+1][j+1] == search_1 && board[i+2][j+2] == search_2) ways++;
+    if(board[i-1][j-1] == search_1 && board[i-2][j-2] == search_2) ways++;
+    if(board[i+1][j-1] == search_1 && board[i+2][j-2] == search_2) ways++;
+    if(board[i-1][j+1] == search_1 && board[i-2][j+2] == search_2) ways++;
 
     return ways;
 }
-
-void clean_flags(int **point, int x, int y){
-    for(int i = 0; i < x+2; i++){
-        for(int j = 0; j < y+2; j++){
-            if(point[i][j] == 'y') {
-                point[i][j] = 2;
-                printf("here\n");
-            }
-        }
-    }
-}
-
 
 void eat(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){
     (*count)++;

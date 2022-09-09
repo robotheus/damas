@@ -10,10 +10,10 @@ void open_file(char argv[]){
 }
 
 int read_file(){
-    int x;
-    fscanf(arqEntrada, "%d", &x);
-    
-    return x;
+    int x, final;
+    final = fscanf(arqEntrada, "%d", &x);
+    if(final == -1) return 50;
+    else return x;
 }
 
 void close_file(){
