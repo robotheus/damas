@@ -33,6 +33,8 @@ void brutal_game(int **board, int n, int m){
     free(count);
     free(copy);
     free(point);
+    free(copy_count);
+    free(max);
 }
 
 int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){    
@@ -68,7 +70,9 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
             create_board(flags, x, y);
             copy_board(flags, board, x, y);
             count_flags(flags, i, j, count, max);
-
+            clean_board(flags, x);
+            free(flags);
+            
             if(password >= 1){
                 if(nmb_diagonals(point, pointi, pointj, 2, 0) == 0){
                     return 0;
