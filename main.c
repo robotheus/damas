@@ -17,17 +17,19 @@ void main(int argc, char *argv[]){
         m = read_file();
         if(n == 0 || m == 0) break;
 
-        if(n >= 3 && n <= 20 && m >= 3 && m <= 20 && (n*m) <= 200){
-            board = (int**)malloc((n+2) * sizeof(int*));
-            create_board(board, n, m);
-            fill_board(board, n, m);
+        board = (int**)malloc((n+2) * sizeof(int*));
+        create_board(board, n, m);
+        fill_board(board, n, m);
+        if(validate_board(board, n, m) == 1){
             brutal_game(board, n, m);
             print_board(board, n, m);
             clean_board(board, n);
-            free(board);    
+            free(board);
+        } else {
+            printf("O tabuleiro %dx%d eh invalido, retire a entrada e execute novamente.\n", n, m);
+            break;
         }
     }
 
     close_file();
-
 }

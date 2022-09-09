@@ -12,7 +12,7 @@ void open_file(char argv[]){
 int read_file(){
     int x;
     fscanf(arqEntrada, "%d", &x);
-
+    
     return x;
 }
 
