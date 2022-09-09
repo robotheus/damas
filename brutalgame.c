@@ -5,7 +5,7 @@
 #include "print.h"
 
 void brutal_game(int **board, int n, int m){
-    int *count, *max, **copy, k = 0, l = 0, o = 0, p = 0, password = 0, **point, *copy_count, pointi, pointj;
+    int *count, *max, **copy, k = -1, l = -1, o = -1, p = -1, password = 0, **point, *copy_count, pointi, pointj;
     
     count = malloc(sizeof(int));
     max = malloc(sizeof(int));
@@ -38,10 +38,7 @@ void brutal_game(int **board, int n, int m){
 int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){    
     if(password < 1){
         int ways = 0;
-        if(board[i+1][j+1] == 2 && board[i+2][j+2] == 0) ways++;
-        if(board[i-1][j-1] == 2 && board[i-2][j-2] == 0) ways++;
-        if(board[i+1][j-1] == 2 && board[i+2][j-2] == 0) ways++;
-        if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0) ways++;
+        ways = nmb_diagonals(board, i, j);
 
         if(ways > 1){
             copy_board(point, board, x, y);
@@ -60,29 +57,41 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
         eat(board, i+2, j-2, i+1, j-1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
     } else if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0){
         eat(board, i-2, j+2, i-1, j+1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
-    } else {   
-        //printf("chegou\n");
-        if(point[pointi+1][pointj+1] != 2 && point[pointi-1][pointj-1] != 2 && point[pointi+1][pointj-1] != 2 && point[pointi-1][pointj+1] != 2){
+    } else {
+        if(k == -1){
             return 0;
-        } else if(board[k][l] == 'y'){
-            (*count)++;
-            *count = *copy_count;
-            //clean_flags(point, x, y);
-            point[k][l] = 'y';
-            copy_board(board, point, x, y);
-            check_diagonals(board, pointi, pointj, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
-        } else if(k == 0) {
-            return 0;
-        } else {
+        } else if(nmb_diagonals(board, m, n) >= 1){
             back_one(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
-        }
+        } else if(password >= 1){
+            if(nmb_diagonals(point, pointi, pointj) == 0){
+                return 0;
+            } else {
+                *count = *copy_count;
+                point[k][l] = 'y';
+                copy_board(board, point, x, y);
+                check_diagonals(board, pointi, pointj, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
+            } 
+        } else return 0;
     }
+}
+
+int nmb_diagonals(int **board, int i, int j){
+    int ways = 0;
+    if(board[i+1][j+1] == 2 && board[i+2][j+2] == 0) ways++;
+    if(board[i-1][j-1] == 2 && board[i-2][j-2] == 0) ways++;
+    if(board[i+1][j-1] == 2 && board[i+2][j-2] == 0) ways++;
+    if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0) ways++;
+
+    return ways;
 }
 
 void clean_flags(int **point, int x, int y){
     for(int i = 0; i < x+2; i++){
         for(int j = 0; j < y+2; j++){
-            if(point[i][j] == 'y') point[i][j] = 2;
+            if(point[i][j] == 'y') {
+                point[i][j] = 2;
+                printf("here\n");
+            }
         }
     }
 }
