@@ -19,9 +19,13 @@ int read_file(){
 
 void close_file(){
     fclose(fileInput);
+    fclose(fileOutput);
 }
 
-void output(int *output){
-    int write = *output;
-    fprintf(fileOutput, "%d\n", write);
+void output(int output, int n, int m){
+    if(output == -1) fprintf(fileOutput, "O tabuleiro %dx%d eh invalido, retire a entrada e execute novamente.\n", n, m);
+    else {
+        int write = output;
+        fprintf(fileOutput, "%d\n", write);
+    }
 }

@@ -8,13 +8,13 @@
 void create_board(int **board, int n, int m){
     //cria um vetor de ponteiros (que é a matriz)
     for(int i = 0; i < n+2; i++){
-        board[i] = (int*) malloc((m+2) * sizeof(int*));
+        *(board + i) = (int*) malloc((m+2) * sizeof(int*));
     }
 
     //preenche todo a matriz com nove
     for(int i = 0; i < n+2; i++){
         for(int j = 0; j < m+2; j++){
-            board[i][j] = 0;
+            *(*(board + i) + j) = 0;
         }
     }
 
@@ -22,9 +22,9 @@ void create_board(int **board, int n, int m){
     for(int i = 0; i < n+2; i++){
         for(int j = 0; j < m+2; j++){
             if((i == 0 || i == (n+2)-1)){
-                board[i][j] = 3;
+                *(*(board + i) + j) = 3;
             } else if (j == 0 || j == (m+2)-1){
-                board[i][j] = 3;
+                *(*(board + i) + j) = 3;
             }
         }
     }
@@ -34,11 +34,11 @@ void fill_board(int **board, int n, int m){
     for(int y = 1; y <= n; y++){
         if(y % 2 != 0){
             for(int x = 1; x <= m; x += 2){
-                board[y][x] = read_file();
+                *(*(board + y) + x) = read_file();
             }
         } else {
             for(int x = 2; x <= m; x += 2){
-                board[y][x] = read_file();
+                *(*(board + y) + x) = read_file();
             }
         }
     }
@@ -47,14 +47,14 @@ void fill_board(int **board, int n, int m){
 void copy_board(int **copy, int **board, int n, int m){
     for(int i = 0; i < n+2; i++){
         for(int j = 0; j < m+2; j++){
-            copy[i][j] = board[i][j];
+            *(*(copy + i) + j) = *(*(board + i) + j);
         }
     }
 }
 
 void clean_board(int **board, int n){
     for(int i = 0; i < n+2; i++){
-        free(board[i]);
+        free(*(board + i));
     }
 }
 
@@ -65,18 +65,18 @@ int validate_board(int **board, int n, int m){
         for(int y = 1; y <= n; y++){
             if(y % 2 != 0){
                 for(int x = 1; x <= m; x += 2){
-                    if(board[y][x] == 2) opponent++;
-                    else if(board[y][x] == 1) me++;
-                    else if (board[y][x] == 0) voidd++;
+                    if(*(*(board + y) + x) == 2) opponent++;
+                    else if(*(*(board + y) + x) == 1) me++;
+                    else if (*(*(board + y) + x) == 0) voidd++;
                     else return 0;
 
                     total++;
                 }
             } else {
                 for(int x = 2; x <= m; x += 2){
-                    if(board[y][x] == 2) opponent++;
-                    else if(board[y][x] == 1) me++;
-                    else if (board[y][x] == 0) voidd++;
+                    if(*(*(board + y) + x) == 2) opponent++;
+                    else if(*(*(board + y) + x) == 1) me++;
+                    else if (*(*(board + y) + x) == 0) voidd++;
                     else return 0;
 
                     total++;

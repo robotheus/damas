@@ -18,7 +18,7 @@ void brutal_game(int **board, int n, int m){
     
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= m; j++){
-            if(board[i][j] == 1){
+            if(*(*(board + i) + j) == 1){
                 *count = 0;
                 *copy_count = 0;
                 create_board(copy, n, m);
@@ -31,8 +31,8 @@ void brutal_game(int **board, int n, int m){
         }
     }
     
-    output(max);
-    
+    output(*max, n, m);
+    //printf("%d sequencia de jogada\n", *max);
     free(count);
     free(copy);
     free(point);
@@ -54,13 +54,13 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
         }
     }
 
-    if(board[i+1][j+1] == 2 && board[i+2][j+2] == 0){
+    if(*(*(board + (i+1)) + (j+1)) == 2 && *(*(board + (i+2)) + (j+2)) == 0){
         eat(board, i+2, j+2, i+1, j+1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
-    } else if(board[i-1][j-1] == 2 && board[i-2][j-2] == 0){
+    } else if(*(*(board + (i-1)) + (j-1)) == 2 && *(*(board + (i-2)) + (j-2)) == 0){
         eat(board, i-2, j-2, i-1, j-1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
-    } else if(board[i+1][j-1] == 2 && board[i+2][j-2] == 0){
+    } else if(*(*(board + (i+1)) + (j-1)) == 2 && *(*(board + (i+2)) + (j-2)) == 0){
         eat(board, i+2, j-2, i+1, j-1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
-    } else if(board[i-1][j+1] == 2 && board[i-2][j+2] == 0){
+    } else if(*(*(board + (i-1)) + (j+1)) == 2 && *(*(board + (i-2)) + (j+2)) == 0){
         eat(board, i-2, j+2, i-1, j+1, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
     } else {
         if(k == -1){
@@ -81,7 +81,7 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
                     return 0;
                 } else {
                     *count = *copy_count;
-                    point[k][l] = 'y';
+                    *(*(point + k) + l) = 'y';
                     copy_board(board, point, x, y);
                     check_diagonals(board, pointi, pointj, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
                 } 
@@ -91,22 +91,22 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
 }
 
 int count_flags(int **board, int i, int j, int *count, int *max, int num_flags){
-    if(board[i+1][j+1] == 'y' && board[i+2][j+2] == 0){
+    if(*(*(board + (i+1)) + (j+1)) == 'y' && *(*(board + (i+2)) + (j+2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i+1][j+1] = 'x';
         count_flags(board, i+2, j+2, count, max, num_flags);
-    } else if(board[i-1][j-1] == 'y' && board[i-2][j-2] == 0){
+    } else if(*(*(board + (i-1)) + (j-1)) == 'y' && *(*(board + (i-2)) + (j-2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i-1][j-1] = 'x';
         count_flags(board, i-2, j-2, count, max, num_flags);
-    } else if(board[i+1][j-1] == 'y' && board[i+2][j-2] == 0){
+    } else if(*(*(board + (i+1)) + (j-1)) == 'y' && *(*(board + (i+2)) + (j-2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i+1][j-1] = 'x';
         count_flags(board, i+2, j-2, count, max, num_flags);
-    } else if(board[i-1][j+1] == 'y' && board[i-2][j+2] == 0){
+    } else if(*(*(board + (i-1)) + (j+1)) == 'y' && *(*(board + (i-2)) + (j+2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
         board[i-1][j+1] = 'x';
@@ -116,27 +116,26 @@ int count_flags(int **board, int i, int j, int *count, int *max, int num_flags){
 
 int nmb_diagonals(int **board, int i, int j, int search_1, int search_2){
     int ways = 0;
-    if(board[i+1][j+1] == search_1 && board[i+2][j+2] == search_2) ways++;
-    if(board[i-1][j-1] == search_1 && board[i-2][j-2] == search_2) ways++;
-    if(board[i+1][j-1] == search_1 && board[i+2][j-2] == search_2) ways++;
-    if(board[i-1][j+1] == search_1 && board[i-2][j+2] == search_2) ways++;
-
+    if(*(*(board + (i+1)) + (j+1)) == search_1 && *(*(board + (i+2)) + (j+2)) == search_2) ways++;
+    if(*(*(board + (i-1)) + (j-1)) == search_1 && *(*(board + (i-2)) + (j-2)) == search_2) ways++;
+    if(*(*(board + (i+1)) + (j-1)) == search_1 && *(*(board + (i+2)) + (j-2)) == search_2) ways++;
+    if(*(*(board + (i-1)) + (j+1)) == search_1 && *(*(board + (i-2)) + (j+2)) == search_2) ways++;
     return ways;
 }
 
 void eat(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){
     (*count)++;
     if(*count > *max) *max = *count;
-    board[i][j] = 1;
-    board[k][l] = 0;
-    board[m][n] = 0;
+    *(*(board + i) + j) = 1;
+    *(*(board + k) + l) = 0;
+    *(*(board + m) + n) = 0;
     check_diagonals(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
 }
 
 void back_one(int **board, int i, int j, int k, int l, int m, int n, int *count, int password, int **point, int x, int y, int *max, int *copy_count, int pointi, int pointj){
     (*count)--;
-    board[i][j] = 0;
-    board[k][l] = 'y';
-    board[m][n] = 1;
+    *(*(board + i) + j) = 0;
+    *(*(board + k) + l) = 'y';
+    *(*(board + m) + n) = 1;
     check_diagonals(board, m, n, k, l, i, j, count, password, point, x, y, max, copy_count, pointi, pointj);
 }
