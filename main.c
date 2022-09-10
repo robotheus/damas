@@ -10,7 +10,7 @@ void main(int argc, char *argv[]){
     int**board;
     int n, m;
 
-    open_file(argv[2]);
+    open_file(argv[2], argv[4]);
     
     while(1){
         n = read_file();
@@ -22,7 +22,6 @@ void main(int argc, char *argv[]){
         fill_board(board, n, m);
         if(validate_board(board, n, m) == 1){
             brutal_game(board, n, m);
-            print_board(board, n, m);
             clean_board(board, n);
             free(board);
         } else {

@@ -3,6 +3,8 @@
 #include "brutalgame.h"
 #include "board.h"
 #include "print.h"
+#include "file.h"
+
 
 void brutal_game(int **board, int n, int m){
     int *count, *max, **copy, k = -1, l = -1, o = -1, p = -1, password = 0, **point, *copy_count, pointi, pointj;
@@ -29,7 +31,8 @@ void brutal_game(int **board, int n, int m){
         }
     }
     
-    printf("maior numero de jogadas: %d\n", *max);
+    output(max);
+    
     free(count);
     free(copy);
     free(point);

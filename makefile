@@ -19,4 +19,4 @@ brutal_game.o:
 	gcc -c brutal_game.c
 
 clean:
-	rm -rf main.o file.o board.o print.o brutalgame.o tp1
+	rm -rf main.o file.o board.o print.o brutalgame.o tp1 saida.txt
