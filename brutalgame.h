@@ -1,8 +1,3 @@
-typedef struct {
-    int linhas, colunas;
-    int se, sd, ie, id;
-} board;
-
 void brutal_game(int **, int, int);
 int check_diagonals(int **, int, int, int, int, int, int, int *, int, int **, int, int, int *, int *, int, int);
 void eat(int **, int, int, int, int, int, int, int *, int, int **, int , int, int *, int *, int, int);
