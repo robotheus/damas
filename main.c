@@ -34,7 +34,7 @@ void main(int argc, char *argv[]){
             gettimeofday(&start, NULL);
             getrusage(RUSAGE_SELF, &start_s);
             brutal_game(board, n, m);
-            //smart_game(board, n, m);
+            smart_game(board, n, m);
             getrusage(RUSAGE_SELF, &end_s);
             gettimeofday(&end, NULL);
             

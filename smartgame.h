@@ -1,12 +1,14 @@
-typedef struct {
+struct nodo {
     int value;
-    struct tree *first;
-    struct tree *next;
-} tree;
+    struct nodo *left;
+    struct nodo *right;
+};
+
+typedef struct nodo nodo;
 
 void smart_game(int **, int, int);
-tree *create_tree(int);
-void insert(tree *, tree *);
-void print(tree *);
+void create_tree(nodo **);
+void insert(nodo **, int);
+/*void print(tree *);
 void clean(tree *);
-void height(tree *);
+void height(tree *);*/
