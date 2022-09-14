@@ -7,8 +7,7 @@ struct nodo {
 typedef struct nodo nodo;
 
 void smart_game(int **, int, int);
+int ways(int **, int, int, int *);
 void create_tree(nodo **);
 void insert(nodo **, int);
-/*void print(tree *);
-void clean(tree *);
-void height(tree *);*/
+void get_max(nodo *, int *);

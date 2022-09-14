@@ -11,7 +11,7 @@ void create_board(int **board, int n, int m){
         *(board + i) = (int*) malloc((m+2) * sizeof(int*));
     }
 
-    //preenche todo a matriz com nove
+    //preenche todo a matriz com zero
     for(int i = 0; i < n+2; i++){
         for(int j = 0; j < m+2; j++){
             *(*(board + i) + j) = 0;
