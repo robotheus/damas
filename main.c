@@ -20,11 +20,11 @@ void main(int argc, char *argv[]){
 
     open_file(argv[2], argv[4]);
     
-    while(1){
+    //while(1){
         n = read_file();
         m = read_file();
         
-        if(n == 0 || m == 0) break;
+    //    if(n == 0 || m == 0) break;
         
         board = (int**)malloc((n+2) * sizeof(int*));
         create_board(board, n, m);
@@ -46,9 +46,9 @@ void main(int argc, char *argv[]){
             free(board);
         } else {
             output(-1, n, m);
-            break;
+    //        break;
         }
-    }
+    //}
 
     printf("Tempo de usuario na forca bruta: %.10f sec\n", user_time);
     printf("Tempo de sistema na forca bruta: %.10f sec\n", system_time);
