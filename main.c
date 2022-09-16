@@ -33,14 +33,14 @@ void main(int argc, char *argv[]){
         if(validate_board(board, n, m) == 1){
             gettimeofday(&start, NULL);
             getrusage(RUSAGE_SELF, &start_s);
-            //brutal_game(board, n, m);
-            smart_game(board, n, m);
+            brutal_game(board, n, m);
+            //smart_game(board, n, m);
             getrusage(RUSAGE_SELF, &end_s);
             gettimeofday(&end, NULL);
             
             user_time += user_time_difference(&start, &end);
             system_time += system_time_difference(&start_s, &end_s);
-            //print_board(board, n, m);
+            print_board(board, n, m);
             
             clean_board(board, n);
             free(board);

@@ -34,7 +34,7 @@ void brutal_game(int **board, int n, int m){
     
     output(*max, n, m);
     
-    //printf("%d eh a maior sequencia de jogadas\n", *max);
+    printf("%d eh a maior sequencia de jogadas\n", *max);
     free(count);
     free(copy);
     free(point);
@@ -69,12 +69,15 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
             return 0;
         } else {
             if(password >= 1){
-                int **flags, num_flags = 0;
+                int **flags, **pointflags, num_flags = 0, flagsi = i, flagsj = j;
                 flags = (int**)malloc((x+2) * sizeof(int*));
-                
+                pointflags = (int**)malloc((x+2) * sizeof(int*));
+
                 create_board(flags, x, y);
+                create_board(pointflags, x, y);
                 copy_board(flags, board, x, y);
-                count_flags(flags, i, j, count, max, num_flags);
+                copy_board(pointflags, board, x, y);
+                count_flags(flags, pointflags, flagsi, flagsj, i, j, count, max, num_flags, x, y);
                 clean_board(flags, x);
                 free(flags);
 
@@ -90,27 +93,33 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
     } 
 }
 
-int count_flags(int **board, int i, int j, int *count, int *max, int num_flags){
+int count_flags(int **board, int **pointflags, int pointi, int pointj, int i, int j, int *count, int *max, int num_flags, int x, int y){
     if(*(*(board + (i+1)) + (j+1)) == 'y' && *(*(board + (i+2)) + (j+2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i+1][j+1] = 'x';
-        count_flags(board, i+2, j+2, count, max, num_flags);
+        board[i+1][j+1] = 0;
+        count_flags(board, pointflags, pointi, pointj, i+2, j+2, count, max, num_flags, x, y);
     } else if(*(*(board + (i-1)) + (j-1)) == 'y' && *(*(board + (i-2)) + (j-2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i-1][j-1] = 'x';
-        count_flags(board, i-2, j-2, count, max, num_flags);
+        board[i-1][j-1] = 0;
+        count_flags(board, pointflags, pointi, pointj, i-2, j-2, count, max, num_flags, x, y);
     } else if(*(*(board + (i+1)) + (j-1)) == 'y' && *(*(board + (i+2)) + (j-2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i+1][j-1] = 'x';
-        count_flags(board, i+2, j-2, count, max, num_flags);
+        board[i+1][j-1] = 0;
+        count_flags(board, pointflags, pointi, pointj, i+2, j-2, count, max, num_flags, x, y);
     } else if(*(*(board + (i-1)) + (j+1)) == 'y' && *(*(board + (i-2)) + (j+2)) == 0){
         num_flags++;
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i-1][j+1] = 'x';
-        count_flags(board, i-2, j+2, count, max, num_flags);
+        board[i-1][j+1] = 0;
+        count_flags(board, pointflags, pointi, pointj, i-2, j+2, count, max, num_flags, x, y);
+    } else if(nmb_diagonals(pointflags, pointi, pointj, 'y', 0) > 0){
+        printf("here\n");
+        pointflags[i][j] = 'x';
+        copy_board(board, pointflags, x, y);
+        num_flags = 0;
+        count_flags(board, pointflags, pointi, pointj, pointi, pointj, count, max, num_flags, x, y);
     } else return 0;
 }
 

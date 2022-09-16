@@ -3,4 +3,4 @@ int check_diagonals(int **, int, int, int, int, int, int, int *, int, int **, in
 void eat(int **, int, int, int, int, int, int, int *, int, int **, int , int, int *, int *, int, int);
 void clean_flags(int **, int, int);
 int nmb_diagonals(int **, int, int, int, int);
-int count_flags(int **, int, int, int *, int *, int);
+int count_flags(int **, int **, int, int, int, int, int*, int*, int, int, int);
