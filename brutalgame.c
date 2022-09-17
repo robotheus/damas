@@ -34,7 +34,7 @@ void brutal_game(int **board, int n, int m){
     
     output(*max, n, m);
     
-    printf("%d eh a maior sequencia de jogadas\n", *max);
+    //printf("%d eh a maior sequencia de jogadas\n", *max);
     free(count);
     free(copy);
     free(point);
@@ -69,7 +69,7 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
             return 0;
         } else {
             if(password >= 1){
-                int **flags, **pointflags, num_flags = 0, flagsi = i, flagsj = j;
+                int **flags, **pointflags, num_flags = 0, flagsi = i, flagsj = j, maxf = 0, a = 0, b = 0, c = 0, d = 0;
                 flags = (int**)malloc((x+2) * sizeof(int*));
                 pointflags = (int**)malloc((x+2) * sizeof(int*));
 
@@ -77,9 +77,11 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
                 create_board(pointflags, x, y);
                 copy_board(flags, board, x, y);
                 copy_board(pointflags, board, x, y);
-                count_flags(flags, pointflags, flagsi, flagsj, i, j, count, max, num_flags, x, y);
+                count_flags(flags, pointflags, flagsi, flagsj, i, j, a, b, c, d, count, max, num_flags, x, y);
                 clean_board(flags, x);
+                clean_board(pointflags, x);
                 free(flags);
+                free(pointflags);
 
                 if(nmb_diagonals(point, pointi, pointj, 2, 0) == 0)return 0;
                 else {
@@ -93,34 +95,62 @@ int check_diagonals(int **board, int i, int j, int k, int l, int m, int n, int *
     } 
 }
 
-int count_flags(int **board, int **pointflags, int pointi, int pointj, int i, int j, int *count, int *max, int num_flags, int x, int y){
+int count_flags(int **board, int **pointflags, int pointi, int pointj, int i, int j, int k, int l, int m, int n, int *count, int *max, int num_flags, int x, int y){
     if(*(*(board + (i+1)) + (j+1)) == 'y' && *(*(board + (i+2)) + (j+2)) == 0){
-        num_flags++;
+        num_flags++; 
+        
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i+1][j+1] = 0;
-        count_flags(board, pointflags, pointi, pointj, i+2, j+2, count, max, num_flags, x, y);
+        
+        *(*(board + i) + j) = 0; 
+        *(*(board + (i+1)) + (j+1)) = 0; 
+        *(*(board + (i+2)) + (j+2)) = 1;
+        
+        count_flags(board, pointflags, pointi, pointj, i+2, j+2, i+1, j+1, i, j, count, max, num_flags, x, y);
     } else if(*(*(board + (i-1)) + (j-1)) == 'y' && *(*(board + (i-2)) + (j-2)) == 0){
         num_flags++;
+        
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i-1][j-1] = 0;
-        count_flags(board, pointflags, pointi, pointj, i-2, j-2, count, max, num_flags, x, y);
+        
+        *(*(board + i) + j) = 0; 
+        *(*(board + (i-1)) + (j-1)) = 0; 
+        *(*(board + (i-2)) + (j-2)) = 1;
+        
+        count_flags(board, pointflags, pointi, pointj, i-2, j-2, i-1, j-1, i, j, count, max, num_flags, x, y);
     } else if(*(*(board + (i+1)) + (j-1)) == 'y' && *(*(board + (i+2)) + (j-2)) == 0){
         num_flags++;
+        
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i+1][j-1] = 0;
-        count_flags(board, pointflags, pointi, pointj, i+2, j-2, count, max, num_flags, x, y);
+        
+        *(*(board + i) + j) = 0; 
+        *(*(board + (i+1)) + (j-1)) = 0; 
+        *(*(board + (i+2)) + (j-2)) = 1;
+        
+        count_flags(board, pointflags, pointi, pointj, i+2, j-2, i+1, j-1, i, j,count, max, num_flags, x, y);
     } else if(*(*(board + (i-1)) + (j+1)) == 'y' && *(*(board + (i-2)) + (j+2)) == 0){
         num_flags++;
+        
         if((*count) + num_flags > *max) *max = (*count) + num_flags;
-        board[i-1][j+1] = 0;
-        count_flags(board, pointflags, pointi, pointj, i-2, j+2, count, max, num_flags, x, y);
+        
+        *(*(board + i) + j) = 0; 
+        *(*(board + (i-1)) + (j+1)) = 0; 
+        *(*(board + (i-2)) + (j+2)) = 1;
+        
+        count_flags(board, pointflags, pointi, pointj, i-2, j+2, i-1, j+1, i, j, count, max, num_flags, x, y);
     } else if(nmb_diagonals(pointflags, pointi, pointj, 'y', 0) > 0){
-        printf("here\n");
-        pointflags[i][j] = 'x';
+        if(num_flags > 1){
+            *(*(pointflags + k) + l) = 'k';
+        } else {
+            *(*(pointflags + k) + l) = 'x';
+            clean_flags(pointflags, x, y, 'k');
+        }
+        
         copy_board(board, pointflags, x, y);
         num_flags = 0;
-        count_flags(board, pointflags, pointi, pointj, pointi, pointj, count, max, num_flags, x, y);
-    } else return 0;
+        
+        count_flags(board, pointflags, pointi, pointj, pointi, pointj, k, l, m, n, count, max, num_flags, x, y);
+    } else {
+        return 0;
+    }
 }
 
 int nmb_diagonals(int **board, int i, int j, int search_1, int search_2){
@@ -144,4 +174,12 @@ void eat(int **board, int i, int j, int k, int l, int m, int n, int *count, int 
     *(*(board + m) + n) = 0;
     
     check_diagonals(board, i, j, k, l, m, n, count, password, point, x, y, max, copy_count, pointi, pointj);
+}
+
+void clean_flags(int **board, int n, int m, int x){
+    for(int i = 0; i < n+2; i++){
+        for(int j = 0; j < m+2; j++){
+            if(*(*(board + i) + j) == x) *(*(board + i) + j) = 'y';
+        }
+    }
 }
