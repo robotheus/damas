@@ -33,8 +33,8 @@ void main(int argc, char *argv[]){
         if(validate_board(board, n, m) == 1){
             gettimeofday(&start, NULL);
             getrusage(RUSAGE_SELF, &start_s);
-            brutal_game(board, n, m);
-            //smart_game(board, n, m);
+            //brutal_game(board, n, m);
+            smart_game(board, n, m);
             getrusage(RUSAGE_SELF, &end_s);
             gettimeofday(&end, NULL);
             
@@ -50,8 +50,8 @@ void main(int argc, char *argv[]){
         }
     }
 
-    printf("Tempo de usuario na forca bruta: %.10f sec\n", user_time);
-    printf("Tempo de sistema na forca bruta: %.10f sec\n", system_time);
+    printf("Tempo de usuario: %.10f sec\n", user_time);
+    printf("Tempo de sistema: %.10f sec\n", system_time);
     
     close_file();
 }
