@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "smartgame.h"
 #include "board.h"
+#include "file.h"
 
 void smart_game(int **board, int n, int m){
     int count, *max;
@@ -17,11 +18,12 @@ void smart_game(int **board, int n, int m){
                 create_tree(&tree);
                 ways(board, i, j, count, &tree, n, m);
                 get_max(&tree, max);
+                free_tree(&tree);
             }
         }
     }
 
-    printf("maior numero de pecas comidas: %d\n", *max);
+    output(*max, n, m);
     free(max);
     free(tree);
 }
@@ -97,8 +99,6 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         free(copy);
         
     }
-
-    return 0;
 }
 
 int create_tree(nodo **root){
@@ -131,8 +131,18 @@ int insert(nodo **root, int value){
 
 int get_max(nodo **root, int *max){
     if(*root == NULL) return 0;
-    else if((*root)->value >= *max){
-        *max = (*root)->value;
+    else {
+        if((*root)->value >= *max) *max = (*root)->value;
         get_max(&(*root)->left, max);
+    }
+}
+
+int free_tree(nodo **root){
+    if(*root == NULL) return 0;
+    else {
+        free_tree(&(*root)->left);
+        free_tree(&(*root)->right);
+        free(root);
+        *root = NULL;
     }
 }
