@@ -32,9 +32,8 @@ void brutal_game(int **board, int n, int m){
         }
     }
     
-    output(*max, n, m);
-    
-    //printf("%d eh a maior sequencia de jogadas\n", *max);
+    //output(*max, n, m);
+    printf("%d eh a maior sequencia de jogadas forca bruta.\n", *max);
     free(count);
     free(copy);
     free(point);

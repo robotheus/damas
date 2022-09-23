@@ -18,12 +18,12 @@ void smart_game(int **board, int n, int m){
                 create_tree(&tree);
                 ways(board, i, j, count, &tree, n, m);
                 get_max(&tree, max);
-                free_tree(&tree);
             }
         }
     }
 
-    output(*max, n, m);
+    //output(*max, n, m);
+    printf("%d eh a maior sequencia de jogadas da inteligente.\n", *max);
     free(max);
     free(tree);
 }
@@ -42,7 +42,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i+2)) + (j+2)) = 1;
         *(*(copy + (i+1)) + (j+1)) = 0;
         *(*(copy + i) + j) = 0;
-        
+        printf("%d\n", count);
         ways(copy, i+2, j+2, count, tree, n, m);
         clean_board(copy, n);
         free(copy);
@@ -59,7 +59,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i-2)) + (j-2)) = 1;
         *(*(copy + (i-1)) + (j-1)) = 0;
         *(*(copy + i) + j) = 0;
-
+        printf("%d\n", count);
         ways(copy, i-2, j-2, count, tree, n, m);
         clean_board(copy, n);
         free(copy);
@@ -76,7 +76,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i+2)) + (j-2)) = 1;
         *(*(copy + (i+1)) + (j-1)) = 0;
         *(*(copy + i) + j) = 0;
-
+        printf("%d\n", count);
         ways(copy, i+2, j-2, count, tree, n, m);
         clean_board(copy, n);
         free(copy);
@@ -93,12 +93,13 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i-2)) + (j+2)) = 1;
         *(*(copy + (i-1)) + (j+1)) = 0;
         *(*(copy + i) + j) = 0;
-
+        printf("%d\n", count);
         ways(copy, i-2, j+2, count, tree, n, m);
         clean_board(copy, n);
         free(copy);
-        
     }
+
+    return 0;
 }
 
 int create_tree(nodo **root){
@@ -134,15 +135,5 @@ int get_max(nodo **root, int *max){
     else {
         if((*root)->value >= *max) *max = (*root)->value;
         get_max(&(*root)->left, max);
-    }
-}
-
-int free_tree(nodo **root){
-    if(*root == NULL) return 0;
-    else {
-        free_tree(&(*root)->left);
-        free_tree(&(*root)->right);
-        free(root);
-        *root = NULL;
     }
 }

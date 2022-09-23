@@ -11,4 +11,3 @@ int ways(int **, int, int, int, nodo **, int, int);
 int create_tree(nodo **);
 int insert(nodo **, int );
 int get_max(nodo **, int *);
-int free_tree(nodo **);
