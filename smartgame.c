@@ -27,7 +27,7 @@ void smart_game(int **board, int n, int m){
             }
         }
     }
-    output(*max, n, m);
+    //output(*max, n, m);
     free(max);
     free(copyboard);
 }
@@ -37,7 +37,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
     count++;
 
     if(*(*(board + (i+1)) + (j+1)) == 2 && *(*(board + (i+2)) + (j+2)) == 0){
-        insert(tree, count);
+        if(insert(tree, count, 0) == -1) return 0;
         
         int **copy = (int**)malloc((n+2) * sizeof(int*));
         create_board(copy, n, m);
@@ -55,7 +55,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
     } 
     
     if(*(*(board + (i-1)) + (j-1)) == 2 && *(*(board + (i-2)) + (j-2)) == 0){
-        insert(tree, count);
+        if(insert(tree, count, 0) == -1) return 0;
         
         int **copy = (int**)malloc((n+2) * sizeof(int*));
         create_board(copy, n, m);
@@ -73,7 +73,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
     } 
     
     if(*(*(board + (i+1)) + (j-1)) == 2 && *(*(board + (i+2)) + (j-2)) == 0){
-        insert(tree, count);
+        if(insert(tree, count, 0) == -1) return 0;
         
         int **copy = (int**)malloc((n+2) * sizeof(int*));
         create_board(copy, n, m);
@@ -91,7 +91,7 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
     } 
     
     if(*(*(board + (i-1)) + (j+1)) == 2 && *(*(board + (i-2)) + (j+2)) == 0){
-        insert(tree, count);
+        if(insert(tree, count, 0) == -1) return 0;
         
         int **copy = (int**)malloc((n+2) * sizeof(int*));
         create_board(copy, n, m);
@@ -121,7 +121,7 @@ int create_tree(nodo **root){
     }
 }
 
-int insert(nodo **root, int value){
+int insert(nodo **root, int value, int nmbchild){
     if(*root == NULL){
         *root = (nodo *)malloc(sizeof(nodo));
         (*root)->right = NULL;
@@ -129,10 +129,12 @@ int insert(nodo **root, int value){
         (*root)->value = value;
         return 0;
     } else if(value > ((*root)->value)){
-        insert(&(*root)->left, value);
+        insert(&(*root)->left, value, nmbchild);
         return 0;
     } else {
-        insert(&(*root)->right, value);
+        if(value == (*root)->value) nmbchild++;
+        if(nmbchild > 4) return -1;
+        insert(&(*root)->right, value, nmbchild);
         return 0;
     }
 }

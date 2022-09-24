@@ -1,4 +1,4 @@
-all: tp1
+all: tp1 gerarcasos
 
 file.o: file.h file.c
 	gcc -c file.c
@@ -21,8 +21,11 @@ smartgame.o: smartgame.h smartgame.c
 main.o: main.c
 	gcc -c main.c
 
+gerarcasos: casos.c
+	gcc casos.c -o gerarcasos -lm
+
 tp1: main.o file.o board.o print.o brutalgame.o times.o smartgame.o
 	gcc main.o file.o board.o print.o brutalgame.o times.o smartgame.o -o tp1 -lm
 	
 clean:
-	rm -rf main.o file.o board.o print.o brutalgame.o times.o smartgame.o tp1 saida.txt
+	rm -rf main.o file.o board.o print.o brutalgame.o times.o smartgame.o tp1 saida.txt gerarcasos
