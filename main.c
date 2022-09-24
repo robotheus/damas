@@ -12,46 +12,53 @@
 #include "smartgame.h"
 
 void main(int argc, char *argv[]){
-    struct timeval start, end;
-    struct rusage start_s, end_s;
+    struct timeval startb, endb, starti, endi;
+    struct rusage start_sb, end_sb, start_si, end_si;
     int **board;
     int n, m; 
-    float user_time = 0, system_time = 0;
+    float user_time_b = 0, system_time_b = 0, user_time_i = 0, system_time_i = 0;
 
     open_file(argv[2], argv[4]);
     
-    //while(1){
+    while(1){
         n = read_file();
         m = read_file();
         
-    //    if(n == 0 || m == 0) break;
+        if(n == 0 || m == 0) break;
         
         board = (int**)malloc((n+2) * sizeof(int*));
         create_board(board, n, m);
         fill_board(board, n, m);
         
         if(validate_board(board, n, m) == 1){
-            gettimeofday(&start, NULL);
-            getrusage(RUSAGE_SELF, &start_s);
-            //brutal_game(board, n, m);
+            gettimeofday(&startb, NULL);
+            getrusage(RUSAGE_SELF, &start_sb);
+            brutal_game(board, n, m);
+            getrusage(RUSAGE_SELF, &end_sb);
+            gettimeofday(&endb, NULL);
+            user_time_b += user_time_difference(&startb, &endb);
+            system_time_b += system_time_difference(&start_sb, &end_sb);
+            
+            gettimeofday(&starti, NULL);
+            getrusage(RUSAGE_SELF, &start_si);
             smart_game(board, n, m);
-            getrusage(RUSAGE_SELF, &end_s);
-            gettimeofday(&end, NULL);
-            
-            user_time += user_time_difference(&start, &end);
-            system_time += system_time_difference(&start_s, &end_s);
-            //print_board(board, n, m);
-            
+            getrusage(RUSAGE_SELF, &end_si);
+            gettimeofday(&endi, NULL);
+            user_time_i += user_time_difference(&starti, &endi);
+            system_time_i += system_time_difference(&start_si, &end_si);
+
             clean_board(board, n);
             free(board);
         } else {
             output(-1, n, m);
-    //        break;
+            break;
         }
-    //}
+    }
 
-    printf("Tempo de usuario: %.10f sec\n", user_time);
-    printf("Tempo de sistema: %.10f sec\n", system_time);
+    printf("Tempo de usuario na FB: %.10f sec\n", user_time_b);
+    printf("Tempo de sistema na FB: %.10f sec\n\n", system_time_b);
+    printf("Tempo de usuario na SI: %.10f sec\n", user_time_i);
+    printf("Tempo de sistema na SI: %.10f sec\n", system_time_i);
     
     close_file();
 }

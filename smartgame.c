@@ -3,29 +3,33 @@
 #include "smartgame.h"
 #include "board.h"
 #include "file.h"
+#include "print.h"
 
 void smart_game(int **board, int n, int m){
-    int count, *max;
+    int count, *max, **copyboard;
     nodo *tree;
 
     max = malloc(sizeof(int));
+    copyboard = (int**)malloc((n+2) * sizeof(int*));
     *max = 0;
     
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= m; j++){
             if(*(*(board + i) + j) == 1){
                 count = 0;
+                create_board(copyboard, n, m);
+                copy_board(copyboard, board, n, m);
                 create_tree(&tree);
-                ways(board, i, j, count, &tree, n, m);
+                ways(copyboard, i, j, count, &tree, n, m);
+                clean_board(copyboard, n);
                 get_max(&tree, max);
+                free_tree(&tree);
             }
         }
     }
-
-    //output(*max, n, m);
-    printf("%d eh a maior sequencia de jogadas da inteligente.\n", *max);
+    output(*max, n, m);
     free(max);
-    free(tree);
+    free(copyboard);
 }
 
 
@@ -42,8 +46,9 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i+2)) + (j+2)) = 1;
         *(*(copy + (i+1)) + (j+1)) = 0;
         *(*(copy + i) + j) = 0;
-        printf("%d\n", count);
+        
         ways(copy, i+2, j+2, count, tree, n, m);
+        
         clean_board(copy, n);
         free(copy);
         
@@ -59,8 +64,9 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i-2)) + (j-2)) = 1;
         *(*(copy + (i-1)) + (j-1)) = 0;
         *(*(copy + i) + j) = 0;
-        printf("%d\n", count);
+        
         ways(copy, i-2, j-2, count, tree, n, m);
+        
         clean_board(copy, n);
         free(copy);
         
@@ -76,8 +82,9 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i+2)) + (j-2)) = 1;
         *(*(copy + (i+1)) + (j-1)) = 0;
         *(*(copy + i) + j) = 0;
-        printf("%d\n", count);
+        
         ways(copy, i+2, j-2, count, tree, n, m);
+        
         clean_board(copy, n);
         free(copy);
         
@@ -93,19 +100,19 @@ int ways(int **board, int i, int j, int count, nodo **tree, int n, int m){
         *(*(copy + (i-2)) + (j+2)) = 1;
         *(*(copy + (i-1)) + (j+1)) = 0;
         *(*(copy + i) + j) = 0;
-        printf("%d\n", count);
+        
         ways(copy, i-2, j+2, count, tree, n, m);
+        
         clean_board(copy, n);
         free(copy);
     }
 
-    return 0;
 }
 
 int create_tree(nodo **root){
     *root = NULL;
     
-    if (*root = NULL){
+    if (*root == NULL){
         *root = (nodo *)malloc(sizeof(nodo));
         (*root)->right = NULL;
         (*root)->left = NULL;
@@ -136,4 +143,11 @@ int get_max(nodo **root, int *max){
         if((*root)->value >= *max) *max = (*root)->value;
         get_max(&(*root)->left, max);
     }
+}
+
+int free_tree(nodo **root){
+    if(!(*root)) return 0;
+        free_tree(&(*root)->right);
+        free_tree(&(*root)->left);
+        free(*root);
 }
