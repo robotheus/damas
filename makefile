@@ -9,14 +9,14 @@ board.o: board.h board.c
 print.o: print.h print.c
 	gcc -c print.c
 
-brutalgame.o: brutalgame.h brutalgame.c
-	gcc -c brutalgame.c
+algorithm1.o: algorithm1.h algorithm1.c
+	gcc -c algorithm1.c
 
 times.o: times.h times.c
 	gcc -c times.c
 
-smartgame.o: smartgame.h smartgame.c
-	gcc -c smartgame.c
+algorithm2.o: algorithm2.h algorithm2.c
+	gcc -c algorithm2.c
 
 main.o: main.c
 	gcc -c main.c
@@ -24,8 +24,8 @@ main.o: main.c
 gerarcasos: casos.c
 	gcc casos.c -o gerarcasos -lm
 
-tp1: main.o file.o board.o print.o brutalgame.o times.o smartgame.o
-	gcc main.o file.o board.o print.o brutalgame.o times.o smartgame.o -o tp1 -lm
+tp1: main.o file.o board.o print.o algorithm1.o times.o algorithm2.o
+	gcc main.o file.o board.o print.o algorithm1.o times.o algorithm2.o -o tp1 -lm
 	
 clean:
-	rm -rf main.o file.o board.o print.o brutalgame.o times.o smartgame.o tp1 saida.txt gerarcasos
+	rm -rf main.o file.o board.o print.o algorithm1.o times.o algorithm2.o tp1 saida.txt gerarcasos

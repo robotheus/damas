@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "board.h"
 #include "file.h"
-#include "brutalgame.h"
 #include <math.h>
 
 void create_board(int **board, int n, int m){

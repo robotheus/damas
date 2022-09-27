@@ -3,12 +3,13 @@
 #include <math.h>
 #include <time.h>
 
-void main(){
+void main(int argc, char *argv[]){
     double n, m, a, b;
-    int minhas, oponente , max_pecas_tabuleiro, max_pecas_jogador;
+    int minhas, oponente , max_pecas_tabuleiro, max_pecas_jogador, qtd;
     srand(time(NULL));
+    qtd = atoi(argv[1]);
     
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < qtd; i++){
         minhas = 0; 
         oponente = 0;
         
