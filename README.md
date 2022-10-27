@@ -59,6 +59,7 @@ final da entrada é indicado por N = M = 0.
 
 
 Exemplo de entrada:
+
 3 3
 
 2 1 2 0 1
