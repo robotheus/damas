@@ -40,12 +40,15 @@ sua jogada!
 
 
 Assim, seu objetivo nesse trabalho é implementar duas estratégias para solucionar esse problema:
+
 • Uma estratégia força bruta;
+
 • Um estratégia alternativa que seja capaz de sempre resolver o problema, tentando o mínimo
 de movimentos;
 
 
 Entrada e Saída
+
 A entrada contém vários casos de teste. A primeira linha de um caso de teste contém dois
 inteiros N e M indicando respectivamente o número de linhas e o número de colunas do tabuleiro
 (3 ≤ N ≤ 20, 3 ≤ M ≤ 20 e N × M ≤ 200). O quadrado mais à esquerda do tabuleiro na borda
